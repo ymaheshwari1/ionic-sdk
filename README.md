@@ -67,3 +67,15 @@ ionic capacitor copy ios --no-build
 3. Open the Android Studio / XCode project:
 ionic capacitor open android   
 ionic capacitor open ios
+
+## Coding Standards
+- Declaration of string
+Use Double quotes("") for declaring string and use Single quotes('') to define string which is already enclosed in Double quotes("")
+
+```js
+// Declaring a string
+let str = "name"
+
+// Declaring a string inside ""
+@ionChange="save('name')"
+```
