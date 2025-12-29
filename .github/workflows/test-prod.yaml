@@ -12,11 +12,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Process Tags
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+            node-version: 18
+      - name: Process and output tags
         env:
           # Map to env variable to prevent shell injection
           TAGS_JSON: ${{ github.event.inputs.tags }}
         run: |
+          if [ -z "$TAGS_JSON" ]; then
+            echo "No tags provided"
+            TAGS_JSON: $(git tag --sort=-version: | head -n 5 | jq -R -s -c 'split("\n")[:-1]')
+          else
+            echo "Tags provided are: $TAGS_JSON"
+          fi
+
           # Use mapfile to safely read jq output into a bash array
           mapfile -t CONFIG_ARRAY < <(echo "$TAGS_JSON" | jq -r '.[]')
 
