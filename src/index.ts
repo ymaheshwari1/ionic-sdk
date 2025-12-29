@@ -11,6 +11,8 @@ import { createI18n } from 'vue-i18n'
 import { useUserStore } from "./store/user";
 import { IonicVue } from '@ionic/vue';
 import imagePreview from "./directives/imagePreview";
+import { useFormValidator } from "./composables/useFormValidation";
+import { useFieldValidator } from "./composables/useFieldValidation";
 
 import "./service-worker"
 
@@ -107,6 +109,8 @@ export let dxpComponents = {
     productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
     productIdentificationContext.fetchGoodIdentificationTypes = options.fetchGoodIdentificationTypes
+    productIdentificationContext.fetchProducts = options.fetchProducts
+
 
     facilityContext.getUserFacilities = options.getUserFacilities
     facilityContext.setUserPreference = options.setUserPreference
@@ -164,6 +168,8 @@ export {
   shopifyImgContext,
   translate,
   useAuthStore,
+  useFieldValidator,
+  useFormValidator,
   useProductIdentificationStore,
   useUserStore,
   userContext,
