@@ -1,0 +1,16 @@
+name: TEST - Manual Trigger Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Tags, pass a comma separated tags value for which the build needs to be created'
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get input value
+        run: echo "The tags are ${{ inputs.tags }}"
