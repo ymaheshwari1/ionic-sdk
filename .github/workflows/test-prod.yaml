@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       tags:
-        description: 'Tags, pass a comma separated tags value for which the build needs to be created'
+        description: 'Tags, pass a JSON array like ["tag1", "tag2"]'
         required: true
         type: string
 
@@ -12,5 +12,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Get input value
-        run: echo "The tags are ${{ inputs.tags }}"
+      - name: Process Tags
+        env:
+          # Map to env variable to prevent shell injection
+          TAGS_JSON: ${{ github.event.inputs.tags }}
+        run: |
+          # Use mapfile to safely read jq output into a bash array
+          mapfile -t CONFIG_ARRAY < <(echo "$TAGS_JSON" | jq -r '.[]')
+
+          # Correct syntax for iterating over a bash array
+          for tag in "${CONFIG_ARRAY[@]}"; do
+            echo "Processing tag: $tag"
+          done
